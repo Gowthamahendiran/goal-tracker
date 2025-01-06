@@ -33,21 +33,27 @@ export default function Login() {
       <Card
         sx={{
           padding: "20px",
-          width: "400px",
+          maxWidth: "400px", // Restrict card width to 400px max
+          width: "100%", // Make card width responsive
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
           borderRadius: "8px",
           backgroundColor: "#ffffff",
+          margin: "0 10px", // Add small margins to avoid overflow on mobile
+          "@media (max-width: 600px)": {
+            padding: "15px", // Reduce padding on smaller screens
+          },
         }}
       >
-        <h1 style={{ fontSize: "22px", color: "black", }}>Welcome</h1>
+        <h1 style={{ fontSize: "22px", color: "black" }}>Welcome</h1>
 
         <TextField
           sx={{
-            width: "350px",
-            display: "flex",
+            width: "100%", // Make text field width responsive
+            maxWidth: "350px", // Limit max width to 350px
+            marginBottom: "10px", // Add some spacing between fields
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: "black",
@@ -75,7 +81,9 @@ export default function Login() {
 
         <TextField
           sx={{
-            width: "350px",
+            width: "100%", // Make text field width responsive
+            maxWidth: "350px", // Limit max width to 350px
+            marginBottom: "10px", // Add some spacing between fields
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: "black",
@@ -130,9 +138,9 @@ export default function Login() {
         <br />
         <p>
           Don&apos;t have an account?{" "}
-          <Link href="/signup" style={{
-            color: "#A020F0"
-          }}>Create New, it&apos;s Free!</Link>
+          <Link href="/signup" style={{ color: "#A020F0" }}>
+            Create New, it&apos;s Free!
+          </Link>
         </p>
       </Card>
     </div>
