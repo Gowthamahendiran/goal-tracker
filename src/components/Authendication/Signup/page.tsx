@@ -3,6 +3,7 @@
 import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Link from "next/link";
 
 export default function SignupForm() {
   const [name, setName] = useState("");
@@ -26,11 +27,13 @@ export default function SignupForm() {
   return (
     <div
       style={{
+        fontFamily: "Arial, sans-serif",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        margin: "50px",
-        fontFamily: "Arial, sans-serif",
+        justifyContent: "center",
+        height: "100vh",
+        margin: "0",
       }}
     >
       <Card
@@ -45,11 +48,32 @@ export default function SignupForm() {
           backgroundColor: "#ffffff",
         }}
       >
-        <h1 style={{ fontSize: "20px", color: "#555" }}>Create an Account</h1>
+        <h1 style={{ fontSize: "21px", color: "black" }}>
+          Create your account
+        </h1>
 
         {/* Name Input */}
         <TextField
-          sx={{ width: '350px'}}
+          sx={{
+            width: "350px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "black",
+              },
+              "&:hover fieldset": {
+                borderColor: "black",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#A020F0",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "grey",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#A020F0",
+            },
+          }}
           value={name}
           onChange={(e) => setName(e.target.value)}
           label="Full Name"
@@ -59,7 +83,26 @@ export default function SignupForm() {
 
         {/* Email Input */}
         <TextField
-          sx={{ width: '350px'}}
+          sx={{
+            width: "350px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "black",
+              },
+              "&:hover fieldset": {
+                borderColor: "black",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#A020F0",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "grey",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#A020F0",
+            },
+          }}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           label="Email"
@@ -69,7 +112,26 @@ export default function SignupForm() {
 
         {/* Password Input with Eye Icon */}
         <TextField
-          sx={{ width: '350px'}}
+          sx={{
+            width: "350px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "black",
+              },
+              "&:hover fieldset": {
+                borderColor: "black",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#A020F0",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "grey",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#A020F0",
+            },
+          }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? "text" : "password"}
@@ -89,7 +151,26 @@ export default function SignupForm() {
 
         {/* Confirm Password Input */}
         <TextField
-          sx={{ width: '350px'}}
+          sx={{
+            width: "350px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "black",
+              },
+              "&:hover fieldset": {
+                borderColor: "black",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#A020F0",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "grey",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#A020F0",
+            },
+          }}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           type={showPassword ? "text" : "password"}
@@ -107,12 +188,11 @@ export default function SignupForm() {
           }}
         />
 
-        {/* Sign Up Button */}
         <button
           style={{
             width: "100%",
             padding: "10px",
-            backgroundColor: "#1976d2",
+            backgroundColor: "#A020F0",
             color: "#ffffff",
             border: "none",
             borderRadius: "4px",
@@ -124,6 +204,18 @@ export default function SignupForm() {
         >
           Sign Up
         </button>
+        <br />
+        <p>
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            style={{
+              color: "#A020F0",
+            }}
+          >
+            Login
+          </Link>
+        </p>
       </Card>
     </div>
   );

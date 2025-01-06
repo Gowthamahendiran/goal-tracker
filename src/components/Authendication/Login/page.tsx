@@ -21,11 +21,13 @@ export default function Login() {
   return (
     <div
       style={{
+        fontFamily: "Arial, sans-serif",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        margin: "50px",
-        fontFamily: "Arial, sans-serif",
+        justifyContent: "center",
+        height: "100vh",
+        margin: "0",
       }}
     >
       <Card
@@ -40,10 +42,30 @@ export default function Login() {
           backgroundColor: "#ffffff",
         }}
       >
-        <h1 style={{ fontSize: "20px", color: "#555" }}>Login</h1>
+        <h1 style={{ fontSize: "22px", color: "black", }}>Welcome</h1>
 
         <TextField
-          sx={{ width: '350px', display: 'flex'}}
+          sx={{
+            width: "350px",
+            display: "flex",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "black",
+              },
+              "&:hover fieldset": {
+                borderColor: "black",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#A020F0",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "grey",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#A020F0",
+            },
+          }}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           label="Email"
@@ -52,7 +74,26 @@ export default function Login() {
         />
 
         <TextField
-        sx={{ width: '350px'}}
+          sx={{
+            width: "350px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "black",
+              },
+              "&:hover fieldset": {
+                borderColor: "black",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#A020F0",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "grey",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#A020F0",
+            },
+          }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? "text" : "password"}
@@ -74,7 +115,7 @@ export default function Login() {
           style={{
             width: "100%",
             padding: "10px",
-            backgroundColor: "#1976d2",
+            backgroundColor: "#A020F0",
             color: "#ffffff",
             border: "none",
             borderRadius: "4px",
@@ -89,7 +130,9 @@ export default function Login() {
         <br />
         <p>
           Don&apos;t have an account?{" "}
-          <Link href="/signup">Create New, it&apos;s Free!</Link>
+          <Link href="/signup" style={{
+            color: "#A020F0"
+          }}>Create New, it&apos;s Free!</Link>
         </p>
       </Card>
     </div>
