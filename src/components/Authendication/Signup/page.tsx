@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function SignupForm() {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ export default function SignupForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -23,7 +25,7 @@ export default function SignupForm() {
       return;
     }
 
-    console.log("Auth:", auth, db)
+    console.log("Auth:", auth, db);
 
     try {
       // Create user with email and password
@@ -34,18 +36,18 @@ export default function SignupForm() {
       );
 
       const user = userCredential.user;
-
-      // Save additional user details to Firestore
       await setDoc(doc(db, "users", user.uid), {
         name,
         email,
         createdAt: new Date().toISOString(),
       });
-
-      alert("User signed up successfully!");
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      router.push("/");
     } catch (error) {
       if (error instanceof Error) {
-        // Narrow error to `Error` type
         console.error("Error signing up:", error.message);
         alert(error.message);
       } else {
@@ -84,7 +86,9 @@ export default function SignupForm() {
           },
         }}
       >
-        <h1 style={{ fontSize: "21px", color: "black" }}>Create your account</h1>
+        <h1 style={{ fontSize: "21px", color: "black" }}>
+          Create your account
+        </h1>
 
         {/* Name Input */}
         <TextField
@@ -166,7 +170,7 @@ export default function SignupForm() {
         <br />
         <p>
           Already have an account?{" "}
-          <Link href="/login" style={{ color: "#A020F0" }}>
+          <Link href="/" style={{ color: "#A020F0" }}>
             Login
           </Link>
         </p>

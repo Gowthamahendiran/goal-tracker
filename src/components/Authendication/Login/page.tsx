@@ -22,7 +22,6 @@ export default function Login() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
-      alert("Welcome bro.")
     } catch (error) {
       if (error instanceof Error) {
         console.error("Error signing up:", error.message);
