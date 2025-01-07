@@ -4,18 +4,34 @@ import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { signInWithEmailAndPassword } from "firebase/auth"; // Import the Firebase function
+import { auth } from "../../../firebase/config"; // Import your Firebase auth instance (replace with your actual Firebase config file)
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter(); // Initialize router for navigation
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const handleSubmit = () => {
-    console.log("Values:", email, password);
+  const handleSubmit = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push("/dashboard");
+      alert("Welcome bro.")
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error signing up:", error.message);
+        alert(error.message);
+      } else {
+        console.error("Unexpected error:", error);
+        alert("An unexpected error occurred.");
+      }
+    }
   };
 
   return (

@@ -1,7 +1,8 @@
-"use client";
-
-import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
+import { auth, db } from "../../../firebase/config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
+import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Link from "next/link";
 
@@ -16,12 +17,42 @@ export default function SignupForm() {
     setShowPassword((prev) => !prev);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    console.log("SignUp Values:", name, email, password);
+
+    console.log("Auth:", auth, db)
+
+    try {
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      // Save additional user details to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name,
+        email,
+        createdAt: new Date().toISOString(),
+      });
+
+      alert("User signed up successfully!");
+    } catch (error) {
+      if (error instanceof Error) {
+        // Narrow error to `Error` type
+        console.error("Error signing up:", error.message);
+        alert(error.message);
+      } else {
+        console.error("Unexpected error:", error);
+        alert("An unexpected error occurred.");
+      }
+    }
   };
 
   return (
@@ -39,17 +70,17 @@ export default function SignupForm() {
       <Card
         sx={{
           padding: "20px",
-          maxWidth: "400px", // Limit max width to 400px
-          width: "100%", // Make card width responsive
+          maxWidth: "400px",
+          width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
           borderRadius: "8px",
           backgroundColor: "#ffffff",
-          margin: "0 10px", // Small margin to avoid overflow
+          margin: "0 10px",
           "@media (max-width: 600px)": {
-            padding: "15px", // Reduce padding on smaller screens
+            padding: "15px",
           },
         }}
       >
@@ -57,96 +88,33 @@ export default function SignupForm() {
 
         {/* Name Input */}
         <TextField
-          sx={{
-            width: "100%", // Make text field width responsive
-            maxWidth: "350px", // Limit max width to 350px
-            marginBottom: "10px", // Space between fields
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "black",
-              },
-              "&:hover fieldset": {
-                borderColor: "black",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#A020F0",
-              },
-            },
-            "& .MuiInputLabel-root": {
-              color: "grey",
-            },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "#A020F0",
-            },
-          }}
           value={name}
           onChange={(e) => setName(e.target.value)}
           label="Full Name"
           variant="outlined"
           margin="normal"
+          fullWidth
         />
 
         {/* Email Input */}
         <TextField
-          sx={{
-            width: "100%", // Make text field width responsive
-            maxWidth: "350px", // Limit max width to 350px
-            marginBottom: "10px", // Space between fields
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "black",
-              },
-              "&:hover fieldset": {
-                borderColor: "black",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#A020F0",
-              },
-            },
-            "& .MuiInputLabel-root": {
-              color: "grey",
-            },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "#A020F0",
-            },
-          }}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           label="Email"
           variant="outlined"
           margin="normal"
+          fullWidth
         />
 
-        {/* Password Input with Eye Icon */}
+        {/* Password Input */}
         <TextField
-          sx={{
-            width: "100%", // Make text field width responsive
-            maxWidth: "350px", // Limit max width to 350px
-            marginBottom: "10px", // Space between fields
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "black",
-              },
-              "&:hover fieldset": {
-                borderColor: "black",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#A020F0",
-              },
-            },
-            "& .MuiInputLabel-root": {
-              color: "grey",
-            },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "#A020F0",
-            },
-          }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? "text" : "password"}
           label="Password"
           variant="outlined"
           margin="normal"
+          fullWidth
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -160,34 +128,13 @@ export default function SignupForm() {
 
         {/* Confirm Password Input */}
         <TextField
-          sx={{
-            width: "100%", // Make text field width responsive
-            maxWidth: "350px", // Limit max width to 350px
-            marginBottom: "10px", // Space between fields
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "black",
-              },
-              "&:hover fieldset": {
-                borderColor: "black",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#A020F0",
-              },
-            },
-            "& .MuiInputLabel-root": {
-              color: "grey",
-            },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "#A020F0",
-            },
-          }}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           type={showPassword ? "text" : "password"}
           label="Confirm Password"
           variant="outlined"
           margin="normal"
+          fullWidth
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -215,15 +162,11 @@ export default function SignupForm() {
         >
           Sign Up
         </button>
+
         <br />
         <p>
           Already have an account?{" "}
-          <Link
-            href="/login"
-            style={{
-              color: "#A020F0",
-            }}
-          >
+          <Link href="/login" style={{ color: "#A020F0" }}>
             Login
           </Link>
         </p>
